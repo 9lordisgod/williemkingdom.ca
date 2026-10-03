@@ -2,7 +2,7 @@
 
 A small Macintosh sitting in a dark room. Find the power switch on the right side of the machine, flip it, and browse everything on the little red-phosphor screen.
 
-**Live:** https://williemkingdom.ca/ 
+**Live:** https://williemkingdom.ca/
 
 ## What's inside
 
@@ -33,11 +33,15 @@ Everything shown on screen (profile, projects, philosophy, links, boot log) live
 
 ## Custom domain
 
-The repo is named after the domain. To serve the site at `williemkingdom.ca`:
+The `CNAME` file in the repo root tells GitHub Pages to serve this site at `williemkingdom.ca`. DNS for the domain must point at GitHub Pages:
 
-1. At the DNS provider, add `A` records for the apex pointing at GitHub Pages: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` (optionally `AAAA` → `2606:50c0:8000::153` … `8003::153`), and a `CNAME` for `www` → `9lordisgod.github.io`.
-2. In **Settings → Pages**, set the custom domain to `williemkingdom.ca` and tick **Enforce HTTPS** once the certificate is issued (or run `gh api -X PUT repos/9lordisgod/williemkingdom.ca/pages -f cname=williemkingdom.ca`).
-3. Update the canonical / `og:` URLs at the top of `index.html` to `https://williemkingdom.ca/`.
+| Type | Name | Value |
+| --- | --- | --- |
+| A | `@` | `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` |
+| AAAA (optional) | `@` | `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153` |
+| CNAME | `www` | `9lordisgod.github.io` |
+
+After the DNS check passes in **Settings → Pages**, turn on **Enforce HTTPS** (`gh api -X PUT repos/9lordisgod/williemkingdom.ca/pages -F https_enforced=true`).
 
 ## Run locally
 
