@@ -1,8 +1,8 @@
-# 9lordisgod.github.io
+# williemkingdom.ca
 
 A small Macintosh sitting in a dark room. Find the power switch on the right side of the machine, flip it, and browse everything on the little red-phosphor screen.
 
-**Live:** https://9lordisgod.github.io/
+**Live:** https://9lordisgod.github.io/williemkingdom.ca/ — soon at https://williemkingdom.ca/ once the domain's DNS points at GitHub Pages (see below).
 
 ## What's inside
 
@@ -30,6 +30,14 @@ URL switches: `?boot` powers the machine on immediately, `?zoom` starts zoomed i
 ## Editing content
 
 Everything shown on screen (profile, projects, philosophy, links, boot log) lives in [`js/data.js`](js/data.js). Phosphor colours live at the top of [`css/style.css`](css/style.css).
+
+## Custom domain
+
+The repo is named after the domain. To serve the site at `williemkingdom.ca`:
+
+1. At the DNS provider, add `A` records for the apex pointing at GitHub Pages: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` (optionally `AAAA` → `2606:50c0:8000::153` … `8003::153`), and a `CNAME` for `www` → `9lordisgod.github.io`.
+2. In **Settings → Pages**, set the custom domain to `williemkingdom.ca` and tick **Enforce HTTPS** once the certificate is issued (or run `gh api -X PUT repos/9lordisgod/williemkingdom.ca/pages -f cname=williemkingdom.ca`).
+3. Update the canonical / `og:` URLs at the top of `index.html` to `https://williemkingdom.ca/`.
 
 ## Run locally
 

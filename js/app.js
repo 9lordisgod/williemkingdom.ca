@@ -606,7 +606,7 @@
           <dt>Display</dt><dd>512 \u00D7 342 \u00B7 ${phosphor()} phosphor</dd>
           <dt>System Software</dt><dd>HTML \u00B7 CSS \u00B7 vanilla JS \u00B7 no frameworks \u00B7 no trackers</dd>
           <dt>Audio</dt><dd>synthesized live (WebAudio)</dd>
-          <dt>Source</dt><dd>${extA('https://github.com/9lordisgod/9lordisgod.github.io', 'github.com/9lordisgod/9lordisgod.github.io')}</dd>
+          <dt>Source</dt><dd>${extA('https://github.com/9lordisgod/williemkingdom.ca', 'github.com/9lordisgod/williemkingdom.ca')}</dd>
         </dl>`,
     }),
     dialog: ({ title, text, icon }) => ({
@@ -780,7 +780,7 @@
         <h2>Philosophy \u2014 on life</h2>${PHILOSOPHY.life.map(quoteHtml).join('')}
         <h2>Philosophy \u2014 on tech</h2>${PHILOSOPHY.tech.map(quoteHtml).join('')}
         <h2>Links</h2><ul>${LINKS.map((l) => `<li>${extA(l.url, l.label)} <span class="dim">\u2014 ${esc(l.note)}</span></li>`).join('')}</ul>
-        <p class="dim">\u00A9 2026 ${esc(PROFILE.name)}. ${extA('https://github.com/9lordisgod/9lordisgod.github.io', 'Source of this site')}.</p>`;
+        <p class="dim">\u00A9 2026 ${esc(PROFILE.name)}. ${extA('https://github.com/9lordisgod/williemkingdom.ca', 'Source of this site')}.</p>`;
       plain.dataset.built = '1';
     }
     plain.hidden = false; plain.scrollTop = 0; plain.focus({ preventScroll: true });
