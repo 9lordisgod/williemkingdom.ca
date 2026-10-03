@@ -2,7 +2,7 @@
 
 A small Macintosh sitting in a dark room. Find the power switch on the right side of the machine, flip it, and browse everything on the little red-phosphor screen.
 
-**Live:** https://9lordisgod.github.io/williemkingdom.ca/ — soon at https://williemkingdom.ca/ once the domain's DNS points at GitHub Pages (see below).
+**Live:** https://williemkingdom.ca/ 
 
 ## What's inside
 
