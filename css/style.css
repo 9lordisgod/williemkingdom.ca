@@ -45,8 +45,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 #stage { position: absolute; inset: 0; overflow: hidden; }
 /* the desk falls off into darkness at the bottom of the frame */
 #stage::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 24vh; pointer-events: none;
-  background: linear-gradient(to bottom, transparent, rgba(0,0,0,.72) 55%, #000 100%);
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 14vh; pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(0,0,0,.5) 60%, #000 100%);
   transition: opacity .95s ease;
 }
 .is-zoomed #stage::after { opacity: 0; }
@@ -92,13 +92,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     linear-gradient(168deg, #4a4741 0%, #3c3a35 32%, #302e2a 66%, #262420 100%);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.1), inset 0 -2px 0 rgba(0,0,0,.6);
 }
-.f-lit, .s-lit, .kb-lit, .pool {
+.f-lit, .s-lit, .kb-lit, .m-lit, .pool {
   position: absolute; inset: 0; pointer-events: none; opacity: 0;
   transition: opacity 1.4s ease; mix-blend-mode: screen;
 }
 .f-lit { background: radial-gradient(ellipse 70% 52% at 50% 33%, rgba(var(--light), .28), rgba(var(--light), .08) 52%, transparent 74%); }
 .s-lit { background: linear-gradient(90deg, rgba(var(--light), .07), rgba(var(--light), .02) 60px, transparent 140px); }
-.is-on .f-lit, .is-on .s-lit, .is-on .kb-lit, .is-on .pool { opacity: 1; }
+.is-on .f-lit, .is-on .s-lit, .is-on .kb-lit, .is-on .m-lit, .is-on .pool { opacity: 1; }
 
 /* screen recess: a chamfered frame drawn with mitred borders, the glass sits inside at 68/90 */
 .bezel {
@@ -308,64 +308,106 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .shadow { position: absolute; background: #000; border-radius: 20px; }
 .shadow-mac   { left: 1250px; top: 440px;  width: 680px; height: 760px; box-shadow: 0 0 80px 36px rgba(0,0,0,.92); }
 .shadow-kb    { left: 1150px; top: 1310px; width: 880px; height: 358px; box-shadow: 0 0 46px 18px rgba(0,0,0,.9); }
-.shadow-mouse { left: 2100px; top: 1320px; width: 160px; height: 265px; box-shadow: 0 0 30px 12px rgba(0,0,0,.9); }
+.shadow-mouse { left: 2100px; top: 1300px; width: 160px; height: 290px; box-shadow: 0 0 30px 12px rgba(0,0,0,.9); }
 .cables { position: absolute; left: 0; top: 0; }
-.cables .cord { fill: none; stroke: #141211; stroke-width: 5; stroke-linecap: round; }
+.cables .cord { fill: none; stroke: #1b1816; stroke-width: 5; stroke-linecap: round; }
 .cables .cord-hi { fill: none; stroke: rgba(255,255,255,.09); stroke-width: 1.4; stroke-linecap: round; }
-.cables .coil { fill: none; stroke: #1a1715; stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
-.cables .coil-hi { fill: none; stroke: rgba(255,255,255,.08); stroke-width: 1.2; stroke-linejoin: round; }
+.cables .coil { fill: none; stroke: #272320; stroke-width: 4.5; stroke-linejoin: round; stroke-linecap: round; }
+.cables .coil-hi { fill: none; stroke: rgba(255,255,255,.13); stroke-width: 1.3; stroke-linejoin: round; }
 .cables .cord-sh { fill: none; stroke: rgba(0,0,0,.8); stroke-width: 10; filter: blur(3px); }
+.cables .relief { fill: none; stroke: #1c1a17; stroke-width: 11; stroke-linecap: round; }
 .pool {
   inset: auto; left: 1120px; top: 1150px; width: 940px; height: 820px;
   background: radial-gradient(ellipse 50% 42% at 50% 22%, rgba(var(--light), .34), rgba(var(--light), .09) 46%, transparent 72%);
 }
 
-/* keyboard: a wedge, 880 × 360, 24 tall in front and 66 at the back, 110 in front of the machine */
+/* keyboard: an M0110-style wedge, 880 × 360, 24 tall in front and 66 at the back, 110 in front of the machine.
+   Same plastic as the case; the caps sit in a recessed well and show a top face plus a front skirt. */
 .kb-top {
-  left: -50px; top: 934px; width: 880px; height: 360px; border-radius: 10px 10px 5px 5px;
+  left: -50px; top: 934px; width: 880px; height: 360px; border-radius: 12px 12px 6px 6px;
   transform-origin: 0 0; transform: translateZ(110px) rotateX(83.35deg);
-  background: linear-gradient(0deg, #2a2824 0%, #33312c 45%, #3d3b35 100%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.09), inset 0 -1px 0 rgba(0,0,0,.55), inset 1px 0 0 rgba(255,255,255,.04), inset -1px 0 0 rgba(0,0,0,.4);
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.35), rgba(0,0,0,0) 26px),
+    linear-gradient(270deg, rgba(0,0,0,.4), rgba(255,255,255,.03) 6px, rgba(0,0,0,0) 30px),
+    linear-gradient(0deg, #2b2924 0%, #37342f 40%, #46433c 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14), inset 0 -2px 0 rgba(0,0,0,.6), inset 1px 0 0 rgba(255,255,255,.05), inset -1px 0 0 rgba(0,0,0,.45);
 }
-.kb-keys { position: absolute; inset: 0; }
+.kb-keys {
+  position: absolute; left: 20px; top: 26px; right: 20px; bottom: 30px; border-radius: 7px;
+  background: linear-gradient(0deg, #15140f, #1c1a16);
+  box-shadow: inset 0 3px 6px rgba(0,0,0,.85), inset 0 -1px 0 rgba(255,255,255,.05), 0 1px 0 rgba(255,255,255,.05);
+}
 .key {
-  position: absolute; height: 46px; border-radius: 5px;
-  background: linear-gradient(180deg, #403d38 0%, #302e2a 55%, #262420 100%);
-  box-shadow: 0 4px 0 #15140f, 0 5px 3px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.08), inset 0 -1px 0 rgba(0,0,0,.35);
+  position: absolute; height: 46px; border-radius: 5px 5px 4px 4px; box-sizing: border-box;
+  font: 500 15px/1 "Helvetica Neue", Helvetica, Arial, sans-serif; color: rgba(0,0,0,.62);
+  text-shadow: 0 1px 0 rgba(255,255,255,.07); letter-spacing: .02em;
+  display: flex; align-items: flex-start; justify-content: center; padding-top: 9px;
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 30%, rgba(255,255,255,.07), rgba(255,255,255,0) 70%),
+    linear-gradient(180deg, #58544c 0%, #4a463f 38%, #3d3a34 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.16), inset 1px 0 0 rgba(255,255,255,.05), inset -1px 0 0 rgba(0,0,0,.2), inset 0 -1px 0 rgba(0,0,0,.3),
+    0 6px 0 #27251f, 0 7px 0 #1a1915, 0 9px 5px rgba(0,0,0,.75);
 }
-.key.dark { background: linear-gradient(180deg, #34322d 0%, #272521 55%, #1f1d1a 100%); }
+.key.dark {
+  font-size: 11px; letter-spacing: .01em; justify-content: flex-start; align-items: flex-end; padding: 0 0 7px 7px;
+  color: rgba(0,0,0,.6);
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 30%, rgba(255,255,255,.05), rgba(255,255,255,0) 70%),
+    linear-gradient(180deg, #4b473f 0%, #3e3b34 38%, #33302a 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.13), inset 1px 0 0 rgba(255,255,255,.04), inset -1px 0 0 rgba(0,0,0,.2), inset 0 -1px 0 rgba(0,0,0,.3),
+    0 6px 0 #22201b, 0 7px 0 #171613, 0 9px 5px rgba(0,0,0,.75);
+}
+.key.cmd { font-size: 16px; }
 .key.space { border-radius: 6px; }
-.kb-lit { background: linear-gradient(0deg, transparent 0%, rgba(var(--light), .07) 45%, rgba(var(--light), .30) 100%); }
+.key.space::after { content: ""; position: absolute; left: 18%; right: 18%; top: 50%; height: 1px; background: rgba(255,255,255,.04); }
+.kb-lit { background: linear-gradient(0deg, transparent 0%, rgba(var(--light), .06) 40%, rgba(var(--light), .28) 100%); border-radius: inherit; }
 .kb-front {
   left: -50px; top: 976px; width: 880px; height: 24px; transform: translateZ(467.6px);
-  background: linear-gradient(180deg, #27251f, #15130f); border-radius: 0 0 6px 6px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+  background: linear-gradient(180deg, #2f2d27, #1c1a16 70%, #14130f); border-radius: 0 0 7px 7px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), inset 0 -1px 0 rgba(0,0,0,.6);
 }
 .kb-side {
   left: 830px; top: 934px; width: 358px; height: 66px;
   transform-origin: 0 0; transform: translateZ(110px) rotateY(90deg) translateX(-358px);
   clip-path: polygon(0 42px, 100% 0, 100% 100%, 0 100%);
-  background: linear-gradient(180deg, #1e1c19, #121110);
+  background: linear-gradient(180deg, #27251f, #1a1815 60%, #100f0d);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
 }
+.kb-foot { position: absolute; width: 40px; height: 6px; border-radius: 3px; background: #0a0908; }
 
-/* mouse: 160 × 265 footprint, 76 tall, boxy, one big button */
+/* mouse: an M0100 brick, 160 × 290 footprint, 76 tall; one big button across the front 42 % of the top */
 .m-top {
-  left: 900px; top: 924px; width: 160px; height: 265px; border-radius: 8px 8px 16px 16px;
-  transform-origin: 0 0; transform: translateZ(120px) rotateX(90deg);
+  left: 900px; top: 924px; width: 160px; height: 290px; border-radius: 9px 9px 14px 14px;
+  transform-origin: 0 0; transform: translateZ(100px) rotateX(90deg);
   background:
-    linear-gradient(180deg, transparent 0 44%, rgba(0,0,0,.6) 44% calc(44% + 2px), rgba(255,255,255,.05) calc(44% + 2px) calc(44% + 3px), transparent calc(44% + 3px)),
-    linear-gradient(0deg, #302e29 0%, #3a3833 60%, #413e38 100%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.1), inset 0 -1px 0 rgba(0,0,0,.5), inset 1px 0 0 rgba(255,255,255,.04);
+    linear-gradient(90deg, rgba(0,0,0,.28), rgba(0,0,0,0) 14px),
+    linear-gradient(270deg, rgba(0,0,0,.34), rgba(255,255,255,.03) 4px, rgba(0,0,0,0) 16px),
+    linear-gradient(0deg, #302e29 0%, #3b3833 50%, #47443d 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14), inset 0 -1px 0 rgba(0,0,0,.55), inset 1px 0 0 rgba(255,255,255,.05), inset -1px 0 0 rgba(0,0,0,.4);
 }
+.m-btn {
+  position: absolute; left: 6px; right: 6px; top: 6px; height: 112px; border-radius: 6px 6px 3px 3px;
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 20%, rgba(255,255,255,.06), rgba(255,255,255,0) 70%),
+    linear-gradient(0deg, #3a3731 0%, #43403a 50%, #4c4942 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), inset 0 -1px 0 rgba(0,0,0,.35), 0 0 0 2px #15140f, 0 3px 0 2px #1d1b17;
+}
+.m-lit { background: linear-gradient(0deg, transparent 0%, rgba(var(--light), .05) 45%, rgba(var(--light), .30) 100%); border-radius: inherit; }
 .m-front {
-  left: 900px; top: 924px; width: 160px; height: 76px; transform: translateZ(385px); border-radius: 0 0 10px 10px;
-  background: linear-gradient(180deg, #2a2823, #17150f 80%);
+  left: 900px; top: 924px; width: 160px; height: 76px; transform: translateZ(390px); border-radius: 0 0 12px 12px;
+  background: linear-gradient(180deg, #34312b, #221f1a 70%, #16140f);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), inset 0 -2px 0 rgba(0,0,0,.6);
 }
 .m-side {
-  left: 1060px; top: 924px; width: 265px; height: 76px;
-  transform-origin: 0 0; transform: translateZ(120px) rotateY(90deg) translateX(-265px);
-  background: linear-gradient(180deg, #1d1b18, #0e0d0b);
+  left: 1060px; top: 924px; width: 290px; height: 76px;
+  transform-origin: 0 0; transform: translateZ(100px) rotateY(90deg) translateX(-290px);
+  background: linear-gradient(180deg, #26241f, #1a1814 60%, #0f0e0c);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
 }
+.m-side::after { content: ""; position: absolute; left: 0; top: 0; width: 122px; height: 100%; background: linear-gradient(90deg, rgba(var(--light), .0), rgba(var(--light), .0)); }
+.is-on .m-side::after { background: linear-gradient(90deg, rgba(var(--light), .10), transparent); }
 
 @media (prefers-reduced-motion: reduce) { #world { transition: none; } }
 

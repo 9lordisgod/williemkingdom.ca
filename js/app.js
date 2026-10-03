@@ -62,8 +62,10 @@
       project(MAC.x + MAC.w, MAC.y + MAC.h, -MAC.d),
       project(MAC.x, MAC.y, -(MAC.d - MAC.chamfer)),
     ];
+    // the keyboard's near edge (y = 1000 on the desk, 467.6 toward the eye) sets the bottom of the picture
+    const kbNear = project(MAC.x, 1000, 467.6);
     const xs = pts.map((p) => p.x), ys = pts.map((p) => p.y);
-    const x0 = Math.min(...xs) - 34, x1 = Math.max(...xs) + 24, y0 = Math.min(...ys) - 30, y1 = Math.max(...ys) + 150;
+    const x0 = Math.min(...xs) - 34, x1 = Math.max(...xs) + 24, y0 = Math.min(...ys) - 24, y1 = Math.max(...ys, kbNear.y) + 70;
     return { x: x0, y: y0, w: x1 - x0, h: y1 - y0 };
   })();
   const room = $('#room'), scene = $('#scene'), world = $('#world'), crt = $('#crt'), display = $('#display');
@@ -140,23 +142,25 @@
   /* ---------------------------------------------------------- desk props */
   // Keycaps on the keyboard's top plate (plate is 880 × 360; 1u = 54px pitch, caps 48px).
   (function keyboard() {
+    // M0110 layout: five rows on a 15u grid, 1u = 54 scene px, caps 48 wide. Modifier caps are darker with small legends.
     const host = $('.kb-keys'); if (!host) return;
-    const U = 54, CAP = 48, X0 = 32, Y0 = 48;
+    const U = 54, CAP = 48, X0 = 15, Y0 = 14;
     const rows = [
-      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.75],
-      [1.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.25],
-      [1.75, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-      [2.25, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2.5],
-      [1.5, 1.25, 1.5, 6.5, 1.5, 1.25, 1.25],
+      ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', ['Backspace', 2]],
+      [['Tab', 1.5], 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', ['\\', 1.5]],
+      [['Caps Lock', 1.75], 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', '\'', ['Return', 2.25]],
+      [['Shift', 2.25], 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', ['Shift', 2.75]],
+      [['Option', 1.75], ['\u2318', 1.25, 'cmd'], ['', 8.75, 'space'], ['Enter', 1.5], ['Option', 1.5]],
     ];
     const frag = document.createDocumentFragment();
     rows.forEach((r, ri) => {
       let x = X0;
-      r.forEach((u, ci) => {
+      r.forEach((k) => {
+        const [label, u, extra] = Array.isArray(k) ? k : [k, 1];
         const w = u * U - (U - CAP);
-        const mod = u > 1.2 || (ri === 4);
-        const k = el('div', { class: 'key' + (mod ? ' dark' : '') + (u > 5 ? ' space' : ''), style: `left:${x}px;top:${Y0 + ri * U}px;width:${w}px` });
-        frag.append(k); x += u * U;
+        const cls = 'key' + (u > 1.2 ? ' dark' : '') + (extra ? ' ' + extra : '');
+        const key = el('div', { class: cls, style: `left:${x}px;top:${Y0 + ri * U}px;width:${w}px`, 'aria-hidden': 'true' }, label);
+        frag.append(key); x += u * U;
       });
     });
     host.append(frag);
@@ -166,18 +170,25 @@
     const s = $('.cables'); if (!s) return;
     const NS = 'http://www.w3.org/2000/svg';
     const path = (d, cls) => { const p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); p.setAttribute('class', cls); s.append(p); };
-    // mouse cord: out of the back of the mouse, lazy S-curve to the keyboard's right side
-    const mouse = 'M2180 1322 C 2180 1200, 2060 1180, 2040 1300 S 2000 1430, 2032 1480';
-    path(mouse, 'cord-sh'); path(mouse, 'cord'); path(mouse, 'cord-hi');
-    // coiled keyboard cord: from the keyboard port on the lower front of the case to the back edge of the keyboard
-    const ax = 1270, ay = 1196, bx = 1255, by = 1316, N = 15, amp = 10, segs = 120;
+    const bez = (P, t) => {
+      const u = 1 - t, a = u * u * u, b = 3 * u * u * t, c = 3 * u * t * t, e = t * t * t;
+      return { x: a * P[0].x + b * P[1].x + c * P[2].x + e * P[3].x, y: a * P[0].y + b * P[1].y + c * P[2].y + e * P[3].y };
+    };
+    // mouse cord: out of the far end of the mouse, slack across the desk and away into the dark behind the machine
+    const mouse = 'M2180 1300 C 2180 1230, 2236 1190, 2262 1110 S 2282 900, 2344 800 S 2430 690, 2460 600';
+    path(mouse, 'cord-sh'); path(mouse, 'cord'); path(mouse, 'cord-hi'); path('M2180 1300 L2180 1284', 'relief');
+    // coiled keyboard cord: from the port on the lower left of the case, out past the left end of the keyboard and
+    // back under its left edge. Sampled along a bezier with a perpendicular sine for the coil.
+    const P = [{ x: 1270, y: 1196 }, { x: 1090, y: 1222 }, { x: 880, y: 1430 }, { x: 1180, y: 1490 }];
+    const N = 26, amp = 9, segs = 320;
     let d = '';
     for (let i = 0; i <= segs; i++) {
-      const t = i / segs, px = ax + (bx - ax) * t, py = ay + (by - ay) * t;
-      const w = Math.sin(t * Math.PI * 2 * N) * amp * Math.sin(Math.PI * Math.min(1, t * 6, (1 - t) * 6));
-      d += (i ? ' L' : 'M') + (px + w).toFixed(1) + ' ' + py.toFixed(1);
+      const t = i / segs, p = bez(P, t), q = bez(P, Math.min(1, t + .004));
+      const dx = q.x - p.x, dy = q.y - p.y, L = Math.hypot(dx, dy) || 1;
+      const w = Math.sin(t * Math.PI * 2 * N) * amp * Math.sin(Math.PI / 2 * Math.min(1, t * 8, (1 - t) * 8));
+      d += (i ? ' L' : 'M') + (p.x - dy / L * w).toFixed(1) + ' ' + (p.y + dx / L * w).toFixed(1);
     }
-    path(d, 'cord-sh'); path(d, 'coil'); path(d, 'coil-hi');
+    path(d, 'cord-sh'); path(d, 'coil'); path(d, 'coil-hi'); path('M1270 1194 L1270 1212', 'relief');
   })();
   // The eye drifts a little with the pointer, which is what makes the body read as a solid object.
   (function parallax() {
