@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>9lordisgod — Anon Rothschild · Open source everything</title>
+<meta name="description" content="Personal site of Anon Rothschild (@9lordisgod). Builder across Solana, Bitcoin, Monero, agents and markets. Internet money since 2008. Power on the Mac to browse projects, philosophy and links.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://9lordisgod.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="9lordisgod">
+<meta property="og:title" content="9lordisgod — power on the Mac">
+<meta property="og:description" content="Anon Rothschild · Open source everything · Internet money since 2008. A small Macintosh in a dark room. Find the switch.">
+<meta property="og:url" content="https://9lordisgod.github.io/">
+<meta property="og:image" content="https://9lordisgod.github.io/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@williemdoe">
+<meta name="twitter:creator" content="@williemdoe">
+<meta name="twitter:image" content="https://9lordisgod.github.io/assets/og.png">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Anon Rothschild","alternateName":"9lordisgod","url":"https://9lordisgod.github.io/","sameAs":["https://github.com/9lordisgod","https://x.com/williemdoe"],"description":"Builder across Solana, Bitcoin, Monero, agents, and markets. Open source everything.","address":{"@type":"PostalAddress","addressLocality":"Richmond","addressRegion":"BC","addressCountry":"CA"}}
+</script>
+</head>
+<body>
+<div id="room" class="is-off" data-phosphor="red">
+  <canvas id="dust" aria-hidden="true"></canvas>
+  <div id="glow" aria-hidden="true"></div>
+
+  <div id="stage">
+    <div id="scene">
+      <!-- 3D world: desk, machine body, keyboard, mouse. The eye position is a CSS perspective-origin,
+           so the front of the machine (and the screen, which is a separate flat layer) stays undistorted. -->
+      <div id="world" aria-hidden="true">
+        <div id="desk" class="face">
+          <div class="shadow shadow-mac"></div>
+          <div class="shadow shadow-kb"></div>
+          <div class="shadow shadow-mouse"></div>
+          <svg class="cables" viewBox="0 0 3200 2600" width="3200" height="2600"></svg>
+          <div class="pool"></div>
+        </div>
+
+        <div id="mac">
+          <div class="face f-top">
+            <div class="t-seam"></div>
+            <div class="t-vents"></div>
+            <div class="t-handle"></div>
+          </div>
+          <div class="face f-right">
+            <div class="s-seam"></div>
+            <div class="s-vents"></div>
+            <div class="switch">
+              <span class="switch-label">POWER</span>
+              <button id="power" class="rocker" type="button" aria-pressed="false" aria-label="Power switch — turn the Mac on">
+                <span class="rocker-cap"><i>I</i><i>O</i></span>
+              </button>
+              <span class="led"></span>
+            </div>
+            <div class="s-lit"></div>
+          </div>
+          <div class="face f-front">
+            <div class="bezel"></div>
+            <div class="dial" title="Brightness"></div>
+            <div class="floppy"><span></span><i></i></div>
+            <div class="badge"><span class="stripes"></span><span class="nine">9</span></div>
+            <div class="nameplate">9lordisgod <small>SE</small></div>
+            <div class="f-lit"></div>
+          </div>
+        </div>
+
+        <div id="keyboard">
+          <div class="face kb-top"><div class="kb-keys"></div><div class="kb-lit"></div></div>
+          <div class="face kb-front"></div>
+          <div class="face kb-side"></div>
+        </div>
+        <div id="mouse">
+          <div class="face m-top"></div>
+          <div class="face m-front"></div>
+          <div class="face m-side"></div>
+        </div>
+      </div>
+
+      <!-- the tube: a flat layer sitting exactly in the bezel opening (z = 0), so text stays crisp -->
+      <div class="crt" id="crt">
+        <div class="raster" id="display">
+          <div id="boot" class="layer" hidden></div>
+          <div id="desktop" class="layer" hidden>
+            <div id="menubar"></div>
+            <div id="icons"></div>
+            <div id="windows"></div>
+            <div id="dropdowns"></div>
+          </div>
+          <div id="fx" class="layer" aria-hidden="true"></div>
+        </div>
+        <div class="beam" aria-hidden="true"></div>
+        <div class="scanlines" aria-hidden="true"></div>
+        <div class="glass" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="hint" class="hint" aria-live="polite"></div>
+
+  <nav class="corner" aria-label="Quick links">
+    <a href="https://github.com/9lordisgod" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://x.com/williemdoe" target="_blank" rel="noopener">X</a>
+    <a href="#text" id="plainLink">Text version</a>
+  </nav>
+  <div class="credit">© 2026 anon rothschild · html + css + js, no frameworks, no trackers</div>
+
+  <section id="plain" class="plain" hidden tabindex="-1">
+    <div class="plain-inner">
+      <a href="#" class="back" id="plainBack">← back to the Mac</a>
+      <div id="plainBody"></div>
+    </div>
+  </section>
+</div>
+
+<noscript>
+  <div style="position:fixed;inset:0;background:#000;color:#b3171d;font-family:monospace;padding:2rem;overflow:auto">
+    <h1>Anon Rothschild — @9lordisgod</h1>
+    <p>Open source everything. Internet money since 2008. Builder across Solana, Bitcoin, Monero, agents, and markets.</p>
+    <p>This site is a small interactive Macintosh that needs JavaScript. Meanwhile:
+      <a style="color:#ff4a4a" href="https://github.com/9lordisgod">GitHub</a> ·
+      <a style="color:#ff4a4a" href="https://x.com/williemdoe">X</a></p>
+  </div>
+</noscript>
+
+<script src="js/data.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
