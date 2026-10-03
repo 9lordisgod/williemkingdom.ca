@@ -1,6 +1,6 @@
 # williemkingdom.ca
 
-A small Macintosh sitting in a dark room. Find the power switch on the right side of the machine, flip it, and browse everything on the little red-phosphor screen.
+A small Macintosh sitting in a dark room. Find the power switch on the right side of the machine, flip it, and browse everything on the little Tiffany-blue screen.
 
 **Live:** https://williemkingdom.ca/
 
@@ -11,7 +11,7 @@ A small Macintosh sitting in a dark room. Find the power switch on the right sid
 - **Power-on** — relay click, CRT beam warm-up, a synthesized startup chord, Happy Mac, a geek boot log, then the desktop. Shut Down collapses the tube back to a dot.
 - **9LORD OS** — a tiny operating system at the real classic-Mac resolution (512 × 342): menu bar, desktop icons, draggable/zoomable windows, dialogs.
   - `About Me`, `Projects` (live stars from the GitHub API), `Philosophy.txt`, `Links`, `X.app`, `GitHub.app`, `Trash`
-  - `Terminal` — `help`, `about`, `projects`, `open 3`, `philosophy`, `fortune`, `neofetch`, `cat .secret`, `matrix`, `theme amber`, `shutdown`…
+  - `Terminal` — `help`, `about`, `projects`, `open 3`, `philosophy`, `fortune`, `neofetch`, `cat .secret`, `matrix`, `theme red`, `shutdown`…
 - **All audio is generated** with WebAudio — no sound files. Toggle with `M`.
 - **Zero dependencies, zero trackers.** One HTML file, one stylesheet, three scripts.
 

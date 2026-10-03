@@ -121,6 +121,7 @@
       if (document.hidden || t - last < 33) return; last = t;
       ctx.clearRect(0, 0, W, H);
       const on = state !== 'off';
+      const tint = on ? (getComputedStyle(room).getPropertyValue('--light').trim() || '112,220,228') : '';
       const gx = parseFloat(room.style.getPropertyValue('--gx')) * devicePixelRatio, gy = parseFloat(room.style.getPropertyValue('--gy')) * devicePixelRatio;
       for (const p of ps) {
         p.x += p.vx + Math.sin(t / 2600 + p.ph) * .00003; p.y += p.vy;
@@ -128,7 +129,7 @@
         if (p.x < -.02) p.x = 1.02; if (p.x > 1.02) p.x = -.02;
         const X = p.x * W, Y = p.y * H;
         let a = p.a, col = '255,255,255';
-        if (on) { const d = Math.hypot(X - gx, Y - gy) / Math.max(W, H); if (d < .35) { a *= 1 + (0.35 - d) * 6; col = '255,110,110'; } }
+        if (on) { const d = Math.hypot(X - gx, Y - gy) / Math.max(W, H); if (d < .35) { a *= 1 + (0.35 - d) * 6; col = tint; } }
         ctx.fillStyle = `rgba(${col},${Math.min(a, .5)})`;
         ctx.beginPath(); ctx.arc(X, Y, p.r * devicePixelRatio, 0, 6.283); ctx.fill();
       }
@@ -344,6 +345,7 @@
       { l: 'Zoom Screen', k: 'Z', a: () => setZoom(!zoomed), chk: zoomed },
       { l: 'Scanlines', a: () => room.classList.toggle('no-scanlines'), chk: !room.classList.contains('no-scanlines') },
       { l: 'Sound', k: 'M', a: toggleSound, chk: !Audio.muted }, '-',
+      { l: 'Tiffany Blue', a: () => setPhosphor('tiffany'), chk: phosphor() === 'tiffany' },
       { l: 'Red Phosphor', a: () => setPhosphor('red'), chk: phosphor() === 'red' },
       { l: 'Amber Phosphor', a: () => setPhosphor('amber'), chk: phosphor() === 'amber' },
       { l: 'Green Phosphor', a: () => setPhosphor('green'), chk: phosphor() === 'green' },
@@ -356,9 +358,9 @@
       { l: 'Shut Down', a: powerOff },
     ],
   };
-  const phosphor = () => room.dataset.phosphor || 'red';
-  function setPhosphor(p) { room.dataset.phosphor = p; localStorage.setItem('9lord_ph', p); }
-  const savedPh = localStorage.getItem('9lord_ph'); if (savedPh && /^(red|amber|green)$/.test(savedPh)) room.dataset.phosphor = savedPh;
+  const phosphor = () => room.dataset.phosphor || 'tiffany';
+  function setPhosphor(p) { room.dataset.phosphor = p; localStorage.setItem('9lord_theme', p); }
+  const savedPh = localStorage.getItem('9lord_theme'); if (savedPh && /^(tiffany|red|amber|green)$/.test(savedPh)) room.dataset.phosphor = savedPh;
   function toggleSound() { Audio.setMuted(!Audio.muted); menubarRefresh(); if (!Audio.muted) Audio.pop(); }
 
   let menubar, clockEl, sndBtn, zoomBtn, openMenu = null;
@@ -683,10 +685,10 @@
     echo: { d: 'echo', r: (a) => a.join(' '), hidden: true },
     history: { d: 'command history', r: () => term.history.map((h, i) => `  ${String(i + 1).padStart(3)}  ${h}`).join('\n') },
     clear: { d: 'clear screen', r: () => { term.out.innerHTML = ''; return null; } },
-    theme: { d: 'theme red|amber|green', r: (a) => { if (!/^(red|amber|green)$/.test(a[0] || '')) return 'usage: theme red|amber|green'; setPhosphor(a[0]); return `phosphor set to ${a[0]}`; } },
+    theme: { d: 'theme tiffany|red|amber|green', r: (a) => { if (!/^(tiffany|red|amber|green)$/.test(a[0] || '')) return 'usage: theme tiffany|red|amber|green'; setPhosphor(a[0]); return `phosphor set to ${a[0]}`; } },
     zoom: { d: 'toggle screen zoom', r: () => { setZoom(!zoomed); return zoomed ? 'zoomed in' : 'zoomed out'; } },
     mute: { d: 'toggle sound', r: () => { toggleSound(); return Audio.muted ? 'sound off' : 'sound on'; } },
-    matrix: { d: 'follow the red rabbit', r: () => { matrix(); return 'wake up, anon\u2026'; } },
+    matrix: { d: 'follow the white rabbit', r: () => { matrix(); return 'wake up, anon\u2026'; } },
     ping: { d: 'ping <host>', hidden: true, r: (a) => { const h = a[0] || 'bitcoin'; return [1, 2, 3].map((i) => `64 bytes from ${h}: icmp_seq=${i} ttl=\u221E time=${h.includes('bitcoin') ? '10min' : h.includes('solana') ? '400ms' : '1ms'}`).join('\n'); } },
     sudo: { d: '', hidden: true, r: () => 'anon is not in the sudoers file. This incident will be reported to nobody \u2014 we don\u2019t do surveillance here.' },
     rm: { d: '', hidden: true, r: (a) => a.join(' ').includes('-rf') ? 'Permission denied. Open source everything, delete nothing.' : 'rm: nothing here is yours to delete' },
@@ -753,8 +755,8 @@
     const c = el('canvas', { width: 512, height: 342 }); fx.append(c);
     const ctx = c.getContext('2d'), cols = Math.floor(512 / 12), drops = Array.from({ length: cols }, () => Math.random() * -40);
     const chars = '01\u30A2\u30A4\u30A6\u30A8\u30AA\u30AB\u30AD\u30AF\u30B1\u30B39LORD\u20BF$\u00A5';
-    const col = getComputedStyle(room).getPropertyValue('--ph-bright').trim() || '#ff4a4a';
-    const bg = getComputedStyle(room).getPropertyValue('--ph-bg').trim() || '#080304';
+    const col = getComputedStyle(room).getPropertyValue('--ph-bright').trim() || '#b8f0f6';
+    const bg = getComputedStyle(room).getPropertyValue('--ph-bg').trim() || '#020809';
     ctx.fillStyle = bg; ctx.fillRect(0, 0, 512, 342);
     const t0 = performance.now();
     (function frame(now) {
