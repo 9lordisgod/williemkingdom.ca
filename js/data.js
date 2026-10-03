@@ -1,7 +1,7 @@
 /* 9LORD OS — content. Edit this file to update the site. */
 window.LORD = (() => {
   const PROFILE = {
-    name: 'Anon Rothschild',
+    name: 'Williem Fan',
     handle: '9lordisgod',
     x: 'williemdoe',
     location: 'Richmond, BC, Canada',
@@ -93,7 +93,7 @@ window.LORD = (() => {
       'Play the long game. Compounding is the only magic that is real.',
       'Luck opens the door. Consistency is what keeps you in the room.',
       'Ship, then talk. The repo is the r\u00E9sum\u00E9.',
-      'Anonymous by name, accountable by work. Let the commits carry the reputation.',
+      'Judged by the work, not the name. Let the commits carry the reputation.',
       'Stay a student. The market tutors anyone who stops learning \u2014 and it charges tuition.',
       'Independence is the goal. Internet money is just the tool.',
     ],

@@ -666,7 +666,7 @@
   const COMMANDS = {
     help: { d: 'this list', r: () => Object.entries(COMMANDS).filter(([, c]) => !c.hidden).map(([k, c]) => `  ${k.padEnd(12)} ${c.d}`).join('\n') },
     about: { d: 'who is this', r: () => aboutText() },
-    whoami: { d: 'current user', r: () => 'anon' },
+    whoami: { d: 'current user', r: () => 'williem' },
     projects: { d: 'highlight projects (open N to launch)', r: () => PROJECTS.map((p, i) => `  [${i + 1}] ${p.name.padEnd(28)} \u2605${starsOf(p)}  ${p.kind}`).join('\n') + '\n\n  open <n>      open on GitHub\n  launch <n>    open live site' },
     open: { d: 'open <n> \u2014 project on GitHub', r: (a) => { const p = pick(a[0]); if (!p) return 'open: no such project. try `projects`'; window.open('https://github.com/9lordisgod/' + p.repo, '_blank', 'noopener'); return `opening github.com/9lordisgod/${p.repo} \u2026`; } },
     launch: { d: 'launch <n> \u2014 live site', r: (a) => { const p = pick(a[0]); if (!p) return 'launch: no such project'; if (!p.live) return `${p.name} has no live site yet \u2014 try \`open\``; window.open(p.live, '_blank', 'noopener'); return `launching ${p.live} \u2026`; } },
@@ -678,7 +678,7 @@
     neofetch: {
       d: 'system info', html: true, r: () => {
         const info = [
-          `<span class="hi">anon@9lord</span>`, `-----------------`,
+          `<span class="hi">williem@9lord</span>`, `-----------------`,
           `<span class="hi">OS</span>       9LORD OS 1.0 (cypherpunk)`, `<span class="hi">Host</span>     Macintosh SE (imaginary)`,
           `<span class="hi">CPU</span>      MC68000 @ 7.83 MHz`, `<span class="hi">Memory</span>   4096 KB / \u221E KB`,
           `<span class="hi">Display</span>  512x342 \u00B7 ${phosphor()} phosphor`, `<span class="hi">Shell</span>    lordsh 1.0`,
@@ -690,7 +690,7 @@
     },
     ls: { d: 'list files', r: (a) => (a[0] || '').replace(/\/$/, '') === 'projects' ? PROJECTS.map((p) => p.repo + '/').join('\n') : (a[0] || '').replace(/\/$/, '') === 'trash' ? TRASH.map((t) => t.name).join('\n') : 'about.txt  philosophy.txt  links.txt  readme.md  projects/  trash/' },
     cat: { d: 'cat <file>', r: (a) => { const f = (a[0] || '').toLowerCase(); if (!f) return 'cat: missing file'; if (FILES[f]) return FILES[f](); if (f.startsWith('projects')) return 'cat: is a directory. try `projects`'; return `cat: ${f}: No such file`; } },
-    pwd: { d: 'print working directory', r: () => '/Users/anon', hidden: true },
+    pwd: { d: 'print working directory', r: () => '/Users/williem', hidden: true },
     date: { d: 'current date', r: () => new Date().toString() },
     uname: { d: 'system name', r: () => '9LORD OS 1.0 cypherpunk mc68000 #2008 (genesis build)', hidden: true },
     echo: { d: 'echo', r: (a) => a.join(' '), hidden: true },
@@ -699,9 +699,9 @@
     theme: { d: 'theme tiffany|red|amber|green', r: (a) => { if (!/^(tiffany|red|amber|green)$/.test(a[0] || '')) return 'usage: theme tiffany|red|amber|green'; setPhosphor(a[0]); return `phosphor set to ${a[0]}`; } },
     zoom: { d: 'toggle screen zoom', r: () => { setZoom(!zoomed); return zoomed ? 'zoomed in' : 'zoomed out'; } },
     mute: { d: 'toggle sound', r: () => { toggleSound(); return Audio.muted ? 'sound off' : 'sound on'; } },
-    matrix: { d: 'follow the white rabbit', r: () => { matrix(); return 'wake up, anon\u2026'; } },
+    matrix: { d: 'follow the white rabbit', r: () => { matrix(); return 'wake up, williem\u2026'; } },
     ping: { d: 'ping <host>', hidden: true, r: (a) => { const h = a[0] || 'bitcoin'; return [1, 2, 3].map((i) => `64 bytes from ${h}: icmp_seq=${i} ttl=\u221E time=${h.includes('bitcoin') ? '10min' : h.includes('solana') ? '400ms' : '1ms'}`).join('\n'); } },
-    sudo: { d: '', hidden: true, r: () => 'anon is not in the sudoers file. This incident will be reported to nobody \u2014 we don\u2019t do surveillance here.' },
+    sudo: { d: '', hidden: true, r: () => 'williem is not in the sudoers file. This incident will be reported to nobody \u2014 we don\u2019t do surveillance here.' },
     rm: { d: '', hidden: true, r: (a) => a.join(' ').includes('-rf') ? 'Permission denied. Open source everything, delete nothing.' : 'rm: nothing here is yours to delete' },
     hack: { d: '', hidden: true, r: () => { matrix(); return 'ACCESS GRANTED. just kidding \u2014 verify, don\u2019t trust.'; } },
     btc: { d: '', hidden: true, r: () => 'number go up. eventually. verify.' },
@@ -721,14 +721,14 @@
     const out = el('pre', { class: 'out' });
     const typed = el('span', { class: 'typed' });
     const ghost = el('input', { class: 'ghost', type: 'text', autocomplete: 'off', autocapitalize: 'off', autocorrect: 'off', spellcheck: 'false', 'aria-label': 'Terminal input' });
-    const inLine = el('div', { class: 'in' }, el('span', { class: 'ps' }, 'anon@9lord:~$ '), typed, el('span', { class: 'cursor' }), ghost);
+    const inLine = el('div', { class: 'in' }, el('span', { class: 'ps' }, 'williem@9lord:~$ '), typed, el('span', { class: 'cursor' }), ghost);
     const t = el('div', { class: 'term' }, out, inLine);
     term = { history: term.history, hi: term.history.length, out, typed, ghost, t };
     const print = (s, html = false) => { if (s == null) return; const d = el('div'); if (html) d.innerHTML = s; else d.textContent = s; out.append(d); };
     print(`9LORD OS 1.0 \u2014 lordsh. type <span class="hi">help</span> to begin.`, true);
     const run = (raw) => {
       const line = raw.trim();
-      print(`anon@9lord:~$ ${line}`);
+      print(`williem@9lord:~$ ${line}`);
       if (line) { term.history.push(line); term.hi = term.history.length; }
       const [cmd, ...args] = line.split(/\s+/);
       if (!cmd) return;
@@ -744,7 +744,7 @@
       else if (e.key === 'ArrowDown') { e.preventDefault(); if (term.hi < term.history.length) { term.hi++; ghost.value = typed.textContent = term.history[term.hi] || ''; } }
       else if (e.key === 'Tab') { e.preventDefault(); const v = ghost.value; const m = Object.keys(COMMANDS).filter((k) => !COMMANDS[k].hidden && k.startsWith(v)); if (m.length === 1) ghost.value = typed.textContent = m[0] + ' '; else if (m.length > 1 && v) print(m.join('  ')); }
       else if (e.key === 'l' && e.ctrlKey) { e.preventDefault(); out.innerHTML = ''; }
-      else if (e.key === 'c' && e.ctrlKey) { e.preventDefault(); print(`anon@9lord:~$ ${ghost.value}^C`); ghost.value = typed.textContent = ''; }
+      else if (e.key === 'c' && e.ctrlKey) { e.preventDefault(); print(`williem@9lord:~$ ${ghost.value}^C`); ghost.value = typed.textContent = ''; }
       e.stopPropagation();
     });
     const scrollEnd = () => { const c = t.closest('.content'); if (c) c.scrollTop = c.scrollHeight; };

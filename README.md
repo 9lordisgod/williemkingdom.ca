@@ -6,4 +6,4 @@ A small Macintosh sitting in a dark room. Find the power switch on the right sid
 
 ## License
 
-MIT © 2026 Anon Rothschild
+MIT © 2026 Williem Fan
